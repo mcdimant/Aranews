@@ -46,7 +46,7 @@ def date_cleaner(df):
 
     return df
 
-def clean_text(text):
+def general_clean_text(text):
     search = ["أ","إ","آ","ة","_","-","/",".","،"," و "," يا ",'"',"ـ","'","ى","\\",'\n', '\t','&quot;','?','؟','!']
     replace = ["ا","ا","ا","ه"," "," ","","",""," و"," يا","","","","ي","",' ', ' ',' ',' ? ',' ؟ ',' ! ']  
     p_tashkeel = re.compile(r'[\u0617-\u061A\u064B-\u0652]')
@@ -65,6 +65,28 @@ def clean_text(text):
     
     return text
 
+def prep_df_text(df):
+    '''
+    input: dataframe with text in "Text" column
+    output: dataframe with cleaned Arabic text in 'Text' col
+    '''
+    df['clean_text'] = df['Text'].apply(lambda x: clean_text(x))
+    df['new_clean_text'] = df['clean_text'].apply(lambda x: x[x.find(']')+1:])
 
+    return df 
+
+def token_and_model(df):
+    '''
+    input: dataframe with cleaned, prepped Arabic text
+    output: model made from tokenized docs
+    '''
+
+    sentences = []
+    for line in df['Text']:
+        sentences.append(utils.simple_preprocess(line))
+    
+    model = gensim.models.Word2Vec(sentences)
+
+    return model
 
 print("you made it!")
