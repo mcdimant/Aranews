@@ -75,6 +75,28 @@ def prep_df_text(df):
 
     return df 
 
+def text_by_year(df):
+    '''
+    input: dataframe with cleaned, prepped Arabic text in "Text" column
+    output: dictionary of dataframes, keyed by year where each value represents a dataframe sliced for that year 
+    '''
+    
+    df['year'] = pd.DatetimeIndex(df['Dateline']).year
+
+    year_set = set(df['year'])
+
+    df_holder = []
+        for year in year_set:
+        df_holder.append("df"+"_"+str(year))
+
+    year_dict = {}
+    for dfh, year in zip(df_holder, year_set):
+        year_dict[dfh] = df[pd.DatetimeIndex(df['Dateline']) == year]
+
+    return year_dict
+
+#tokenizing and modeling 
+
 def token_and_model(df):
     '''
     input: dataframe with cleaned, prepped Arabic text
@@ -88,5 +110,44 @@ def token_and_model(df):
     model = gensim.models.Word2Vec(sentences)
 
     return model
+
+#dimensionaltiy reduction for isu
+
+def reduce_dimensions(model):
+    num_dimensions = 2  # final num dimensions (2D, 3D, etc)
+
+    # extract the words & their vectors, as numpy arrays
+    vectors = np.asarray(model.wv.vectors)
+    labels = np.asarray(model.wv.index_to_key)  # fixed-width numpy strings
+
+    # reduce using t-SNE
+    tsne = TSNE(n_components=num_dimensions, random_state=0)
+    vectors = tsne.fit_transform(vectors)
+
+    x_vals = [v[0] for v in vectors]
+    y_vals = [v[1] for v in vectors]
+    
+    return x_vals_2d, y_vals_2d, labels_2d
+
+def plot_n_closest(model, word, n):
+
+    word_dict = {}
+    for i, w in enumerate(labels):
+    word_dict[w] = (x_vals[i], y_vals[i])
+
+
+    label_list = []
+    x_list = []
+    y_list = []
+    sim_list = model.wv.most_similar(positive=[word], topn=n)
+    for i, v in enumerate(sim_list):
+        label_list.append(sim_list[i][0])
+        x_list.append(word_dict[sim_list[i][0]][0])
+        y_list.append(word_dict[sim_list[i][0]][1])
+    
+
+    return plot_function(x_list, y_list, label_list)
+
+
 
 print("you made it!")
