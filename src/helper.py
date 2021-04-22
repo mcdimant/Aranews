@@ -46,7 +46,7 @@ def date_cleaner(df):
 
     return df
 
-def general_clean_text(text):
+def clean_text(text):
     search = ["أ","إ","آ","ة","_","-","/",".","،"," و "," يا ",'"',"ـ","'","ى","\\",'\n', '\t','&quot;','?','؟','!']
     replace = ["ا","ا","ا","ه"," "," ","","",""," و"," يا","","","","ي","",' ', ' ',' ',' ? ',' ؟ ',' ! ']  
     p_tashkeel = re.compile(r'[\u0617-\u061A\u064B-\u0652]')
@@ -71,8 +71,8 @@ def prep_df_text(df):
     output: dataframe with cleaned Arabic text in 'Text' col
     '''
     df['clean_text'] = df['Text'].apply(lambda x: clean_text(x))
-    df['new_clean_text'] = df['clean_text'].apply(lambda x: x[x.find(']')+1:])
-
+    df['clean_text'] = df['clean_text'].apply(lambda x: x[x.find(']')+1:])
+    df.drop(columns='Text', inplace=True)
     return df 
 
 def text_by_year(df):
@@ -91,7 +91,7 @@ def text_by_year(df):
 
     year_dict = {}
     for dfh, year in zip(df_holder, year_set):
-        year_dict[dfh] = df[pd.DatetimeIndex(df['Dateline']) == year]
+        year_dict[dfh] = df[df['year'] == year]
 
     return year_dict
 
@@ -133,7 +133,7 @@ def plot_n_closest(model, word, n):
 
     word_dict = {}
     for i, w in enumerate(labels):
-    word_dict[w] = (x_vals[i], y_vals[i])
+        word_dict[w] = (x_vals[i], y_vals[i])
 
 
     label_list = []
@@ -150,4 +150,4 @@ def plot_n_closest(model, word, n):
 
 
 
-print("you made it!")
+print("helper functions loaded successfully!")
