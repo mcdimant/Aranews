@@ -86,7 +86,7 @@ def text_by_year(df):
     year_set = set(df['year'])
 
     df_holder = []
-        for year in year_set:
+    for year in year_set:
         df_holder.append("df"+"_"+str(year))
 
     year_dict = {}
