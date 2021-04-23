@@ -120,17 +120,12 @@ def token_and_model(year_dict):
 
     return model_dict
 
-
-#dimensionaltiy reduction for isu
-
 def reduce_dimensions(model_dict):
     '''
     inputs: dictionary of models 
-    outputs: dictioary keyed by country_year where each item is a dataframe with three columns, x_vals,
+    outputs: dictionary keyed by country_year where each item is a dataframe with three columns, x_vals,
     y_vals, and labels that correspond to the x and y coordiantes for each label (tokenized word) in the model
     '''
-   
-  
     dim_red_dict = {}
 
     key_names = []
@@ -160,25 +155,63 @@ def reduce_dimensions(model_dict):
 
     return dim_red_dict
 
-def plot_n_closest(model, word, n):
 
-    word_dict = {}
-    for i, w in enumerate(labels):
-        word_dict[w] = (x_vals[i], y_vals[i])
+#some function to aggregate multiple dicts into a combined dictionary for all countries, and then 
+#turn that into a dataframe
 
+# plotting 
 
-    label_list = []
-    x_list = []
-    y_list = []
-    sim_list = model.wv.most_similar(positive=[word], topn=n)
-    for i, v in enumerate(sim_list):
-        label_list.append(sim_list[i][0])
-        x_list.append(word_dict[sim_list[i][0]][0])
-        y_list.append(word_dict[sim_list[i][0]][1])
+def plot_n_closest(dim_red_dict, model_dict, word, n, year_a, year_b):
+    '''
+    inputs: dimensionally reduced dictionary for specific country, word of interest, n nearest neighbors to 
+    that word, year a and year b for comparison 
+    '''
+    #selects models and dataframes associated with year_a and year_b
+    for m,d in zip(model_dict.items(), dim_red_dict.items()):
+        if year_a == int(m[0][-4:]):
+            model_a = m[1]
+            dr_df_a = d[1]
+        if year_b == int(m[0][-4:]):
+            model_b = m[1]
+            dr_df_b = d[1]
+        else:
+            None 
     
+    sim_list_a = model_a.wv.most_similar(positive=[word], topn=n)
+    sim_list_b = model_b.wv.most_similar(positive=[word], topn=n)
 
-    return plot_function(x_list, y_list, label_list)
+    label_list_a = []
+    x_list_a = []
+    y_list_a = []
 
+    label_list_b = []
+    x_list_b = []
+    y_list_b = []
+
+    for i, v in enumerate(sim_list_a):
+        curr_label = sim_list_a[i][0]
+        label_list_a.append(curr_label)
+        x_list_a.append(dr_df_a.loc[dr_df_a['labels'] == curr_label, 'x_vals'].iloc[0])
+        y_list_a.append(dr_df_a.loc[dr_df_a['labels'] == curr_label, 'y_vals'].iloc[0])
+    
+    for i, v in enumerate(sim_list_b):
+        curr_label = sim_list_b[i][0]
+        label_list_b.append(curr_label)
+        x_list_b.append(dr_df_b.loc[dr_df_b['labels'] == curr_label, 'x_vals'].iloc[0])
+        y_list_b.append(dr_df_b.loc[dr_df_b['labels'] == curr_label, 'y_vals'].iloc[0])
+    
+    fig = make_subplots(rows=1, cols=2)
+    
+    trace_a = go.Scatter(x=x_list_a, y=y_list_a, mode='text', text=label_list_a)
+    trace_b = go.Scatter(x=x_list_b, y=y_list_b, mode='text', text=label_list_b)
+ 
+    fig.add_trace((trace_a), row=1, col=1)
+    fig.add_trace((trace_b), row=1, col=2)
+
+    fig.update_layout(height=600, width=800, title_text="Word Embedding Comparison")
+    fig.show()
+
+    return fig.show() 
 
 
 print("helper functions loaded successfully!")
