@@ -119,23 +119,46 @@ def token_and_model(year_dict):
     model_dict[model_name] = model
 
     return model_dict
+
+
 #dimensionaltiy reduction for isu
 
-def reduce_dimensions(model):
-    num_dimensions = 2  # final num dimensions (2D, 3D, etc)
+def reduce_dimensions(model_dict):
+    '''
+    inputs: dictionary of models 
+    outputs: dictioary keyed by country_year where each item is a dataframe with three columns, x_vals,
+    y_vals, and labels that correspond to the x and y coordiantes for each label (tokenized word) in the model
+    '''
+   
+  
+    dim_red_dict = {}
 
-    # extract the words & their vectors, as numpy arrays
-    vectors = np.asarray(model.wv.vectors)
-    labels = np.asarray(model.wv.index_to_key)  # fixed-width numpy strings
-
-    # reduce using t-SNE
-    tsne = TSNE(n_components=num_dimensions, random_state=0)
-    vectors = tsne.fit_transform(vectors)
-
-    x_vals = [v[0] for v in vectors]
-    y_vals = [v[1] for v in vectors]
+    key_names = []
+    for m in model_dict.items():
+        key_names.append(str(m[0][-4:])+'_dim_red')
     
-    return x_vals_2d, y_vals_2d, labels_2d
+    for model, key_name in zip(model_dict.values(), key_names):
+        num_dimensions = 2  # final num dimensions (2D, 3D, etc)
+        print('done with setting dimensions')
+    
+        # extract the words & their vectors, as numpy arrays
+        vectors = np.asarray(model.wv.vectors)
+        labels = np.asarray(model.wv.index_to_key)  # fixed-width numpy strings
+        print('done with vectors and labels')
+    
+        # reduce using t-SNE
+        tsne = TSNE(n_components=num_dimensions, random_state=0)
+        vectors = tsne.fit_transform(vectors)
+        print('done with tsne')
+    
+        x_vals = [v[0] for v in vectors]
+        y_vals = [v[1] for v in vectors]
+        print('done assigning x_vals and y_vals')
+
+        dim_red_dict[key_name] = pd.DataFrame({'x_vals':x_vals, 'y_vals':y_vals, 'labels':labels})
+        print('done with dataframing!')
+
+    return dim_red_dict
 
 def plot_n_closest(model, word, n):
 
