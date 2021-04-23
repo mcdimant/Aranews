@@ -97,20 +97,28 @@ def text_by_year(df):
 
 #tokenizing and modeling 
 
-def token_and_model(df):
+def token_and_model(year_dict):
     '''
-    input: dataframe with cleaned, prepped Arabic text
-    output: model made from tokenized docs
+    input: dictionary of dataframes sliced by year with cleaned, prepped Arabic text
+    output: list of models for each dataframe
     '''
-
-    sentences = []
-    for line in df['Text']:
-        sentences.append(utils.simple_preprocess(line))
+    df_set = set(year_dict.keys())
     
+    model_names = []
+    for df in df_set:
+        model_names.append('model'+'_'+str(df))
+
+    model_dict = {}
+
+    for i, (df, model_name) in enumerate(zip(year_dict.items(), model_holder)):
+        sentences = [] 
+        for line in df[1]['clean_text']:
+            sentences.append(utils.simple_preprocess(line))
     model = gensim.models.Word2Vec(sentences)
 
-    return model
+    model_dict[model_name] = model
 
+    return model_dict
 #dimensionaltiy reduction for isu
 
 def reduce_dimensions(model):
