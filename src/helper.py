@@ -46,7 +46,12 @@ def date_cleaner(df):
 
     return df
 
-def clean_text(text):
+def clean_text(df):
+    '''
+    input: dataframe (df) with column 'Text'
+    output: df with cleaned 'Text' column
+    '''
+    text = df['Text']
     search = ["أ","إ","آ","ة","_","-","/",".","،"," و "," يا ",'"',"ـ","'","ى","\\",'\n', '\t','&quot;','?','؟','!']
     replace = ["ا","ا","ا","ه"," "," ","","",""," و"," يا","","","","ي","",' ', ' ',' ',' ? ',' ؟ ',' ! ']  
     p_tashkeel = re.compile(r'[\u0617-\u061A\u064B-\u0652]')
@@ -63,7 +68,7 @@ def clean_text(text):
         
     text = text.strip()
     
-    return text
+    return df
 
 def prep_df_text(df):
     '''
@@ -151,6 +156,7 @@ def reduce_dimensions(model_dict):
         print('done assigning x_vals and y_vals')
 
         dim_red_dict[key_name] = pd.DataFrame({'x_vals':x_vals, 'y_vals':y_vals, 'labels':labels})
+        
         print('done with dataframing!')
 
     return dim_red_dict
