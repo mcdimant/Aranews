@@ -13,6 +13,8 @@ from nltk import ngrams
 
 from sklearn.decomposition import IncrementalPCA    
 from sklearn.manifold import TSNE 
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
 
 #Cleaning function
 
@@ -151,11 +153,11 @@ def reduce_dimensions(model_dict):
         y_vals = [v[1] for v in vectors]
         print('done assigning x_vals and y_vals')
 
-        df = pd.DataFrame({'year': y, 'x_vals':x_vals, 'y_vals':y_vals, 'labels':labels})
+        final_df = pd.DataFrame({'year': y, 'x_vals':x_vals, 'y_vals':y_vals, 'labels':labels})
         
         print('done with dataframing!')
 
-    return dim_red_dict
+    return final_df
 
 
 #some function to aggregate multiple dicts into a combined dictionary for all countries, and then 
@@ -215,5 +217,39 @@ def plot_n_closest(dim_red_dict, model_dict, word, n, year_a, year_b):
 
     return fig.show() 
 
+
+def lda_vectorizer(df, col, num_topics, num_features):
+    '''
+    Input: dataframe, column for vectorizing, number of topics, number of features
+    Output: Df with columns that represented featurized topics for a column of text values
+
+    '''
+    docs = df[col]
+
+    tf_vectorizer = CountVectorizer(max_df=0.95,
+                                    min_df=2,
+                                    max_features=num_features,
+                                    stop_words='english')
+
+    tf = tf_vectorizer.fit_transform(docs)
+    tf_feature_names = tf_vectorizer.get_feature_names() # theses are the words in our bag of words
+    tf
+
+    #LDA on 'description' column for 10 topics
+    lda = LatentDirichletAllocation(n_components=num_topics,
+                                    max_iter=5,
+                                    learning_method='online',
+                                    random_state=0,
+                                    n_jobs=-1)
+    lda.fit(tf)
+
+    #Add dataframe back to df showing how topic-y each document is for each of the 10 topics
+
+    #lda.transform(tf) is the matrix showing topicy-ness for each document and its 10 topics
+    # convertiny lda array into dataframe for concatentation 
+    lda_desc_df = pd.DataFrame(lda.transform(tf))
+    df = pd.concat([df, lda_desc_df], axis=1)
+    
+    return df 
 
 print("helper functions loaded successfully!")
