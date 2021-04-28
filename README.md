@@ -13,40 +13,38 @@ Analysis of word embedding in [corpus of Arabic news articles](https://abuelkhai
 The Yemeni part of the corpus contains ___ articles comprising ___ words from December 2009 to May 2014. All of the articles are from the [Saba News Agency](https://www.sabanew.net/), a state run media outlet. Abu el-Khair's methodology for choosing articles is unclear, so I performed a Latent Dirichlet Analysis (LDA) to discern topics within the Yemeni articles. After experimenting with various numbers of topics, I found that I could identify 6 more-or-less distinct topics within the Yemeni part of the corpus:
 
 
-##### LDA 
+#### LDA 
 TFIDF Vectorizer Hyperparameters:
-** max_df = .95
-** min_df = 2
-** max_features = 1000
-** stop_words = (list of Arabic stop words)
+* max_df = .95
+* min_df = 2
+* max_features = 1000
+* stop_words = (list of Arabic stop words)
 
 LDA Hyperparameters:
-** n_component = 6
-** max_iter = 5
-** learning_method = 'online'
-** random_state = 0
+* n_component = 6
+* max_iter = 5
+* learning_method = 'online'
+* random_state = 0
 
-Topic 0: Security / Defense Affairs
+* Topic 0: Security / Defense Affairs
 الامن الامنيه قوات المسلحه القوات العسكريه اللواء الشرطه الدفاع مدينه منطقه الجيش الداخليه جنوب المنطقه المواطنين وزاره الركن محافظه الانباء
 
-Topic 1: Economy / development
+* Topic 1: Economy / development
 عدن اليمنيه الدوره الصحه مجال الانباء المجتمع لوكاله مدير صنعاء اليمن العامه الاطفال العام للتنميه العمل مشروع الصحيه الورشه بعدن
 
-Topic 2: Local politics
+* Topic 2: Local politics
 المحافظه بالمحافظه العامه الاجتماع محمد اهميه وكيل المحليه اللجنه مدير مكتب المجلس العام محافظه صنعاء احمد عبد العمل المحلي الدكتور
 
-Topic 3: National politics
+* Topic 3: National politics
 اليمن رئيس الوطني الحوار وزير العربيه الرئيس صنعاء مجلس التعاون الاخ مؤتمر اليمنيه الجمهوريه السياسيه اللقاء الدكتور محمد عبد اليمني
 
-Topic 4: Regional Arab politics / sports
+* Topic 4: Regional Arab politics / sports
 نقطه الاحتلال المركز فريق الفلسطينيه الاسرائيلي سوريا القدم القاهره لكره الاولي الاتحاد البطوله المصريه فيما المصري الفلسطيني مصر القدس الدور
 
-Topic 5: International politics
+* Topic 5: International politics
 المتحده العام الحكومه المائه الخارجيه الامريكيه الاوروبي الامم الامريكي الدولي الدوليه الاتحاد الانسان الولايات الصين الدول بنسبه بشان بيان مستوي
 
 (Even when I added additional topics, the LDA appeared to conflate terms associaed with sports and regional Arab news)
-
-
 
 
 ## The pipeline
