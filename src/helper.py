@@ -162,32 +162,27 @@ def reduce_dimensions(model_dict):
     print('ALL done')
 
     return final_df
+ 
 
-
-#some function to aggregate multiple dicts into a combined dictionary for all countries, and then 
-#turn that into a dataframe
-
-# plotting 
-
-def plot_n_closest(dim_red_dict, model_dict, word, n, year_a, year_b):
+def plot_n_closest(final_df, model_dict, word, n, year_a, year_b):
     '''
     inputs: dimensionally reduced dictionary for specific country, word of interest, n nearest neighbors to 
     that word, year a and year b for comparison 
     '''
-    #selects models and dataframes associated with year_a and year_b
-    for m,d in zip(model_dict.items(), dim_red_dict.items()):
+    #selects models associated with year_a and year_b
+    for m in model_dict.items():
         if year_a == int(m[0][-4:]):
             model_a = m[1]
-            dr_df_a = d[1]
         if year_b == int(m[0][-4:]):
             model_b = m[1]
-            dr_df_b = d[1]
         else:
             None 
-    
+
+    #generates list of similar words based on input word for each year(a or b) model
     sim_list_a = model_a.wv.most_similar(positive=[word], topn=n)
     sim_list_b = model_b.wv.most_similar(positive=[word], topn=n)
 
+    #holders for values to be graphed
     label_list_a = []
     x_list_a = []
     y_list_a = []
@@ -199,14 +194,14 @@ def plot_n_closest(dim_red_dict, model_dict, word, n, year_a, year_b):
     for i, v in enumerate(sim_list_a):
         curr_label = sim_list_a[i][0]
         label_list_a.append(curr_label)
-        x_list_a.append(dr_df_a.loc[dr_df_a['labels'] == curr_label, 'x_vals'].iloc[0])
-        y_list_a.append(dr_df_a.loc[dr_df_a['labels'] == curr_label, 'y_vals'].iloc[0])
+        x_list_a.append(final_df.loc[final_df['labels'] == curr_label, 'x_vals'].iloc[0])
+        y_list_a.append(final_df.loc[final_df['labels'] == curr_label, 'y_vals'].iloc[0])
     
     for i, v in enumerate(sim_list_b):
         curr_label = sim_list_b[i][0]
         label_list_b.append(curr_label)
-        x_list_b.append(dr_df_b.loc[dr_df_b['labels'] == curr_label, 'x_vals'].iloc[0])
-        y_list_b.append(dr_df_b.loc[dr_df_b['labels'] == curr_label, 'y_vals'].iloc[0])
+        x_list_b.append(final_df.loc[final_df['labels'] == curr_label, 'x_vals'].iloc[0])
+        y_list_b.append(final_df.loc[final_df['labels'] == curr_label, 'y_vals'].iloc[0])
     
     fig = make_subplots(rows=1, cols=2)
     
