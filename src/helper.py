@@ -135,6 +135,7 @@ def reduce_dimensions(model_dict):
     for m in model_dict.items():
         year.append(str(m[0][-4:]))
     
+
     for model, y in zip(model_dict.values(), year):
         num_dimensions = 2  # final num dimensions (2D, 3D, etc)
         print('done with setting dimensions')
@@ -153,9 +154,12 @@ def reduce_dimensions(model_dict):
         y_vals = [v[1] for v in vectors]
         print('done assigning x_vals and y_vals')
 
-    final_df = pd.DataFrame({'year': y, 'x_vals':x_vals, 'y_vals':y_vals, 'labels':labels})
-        
-    print('done with dataframing!')
+        dim_red_dict[y] = pd.DataFrame({'year': y, 'x_vals':x_vals, 'y_vals':y_vals, 'labels':labels})
+        print('done with dataframing')    
+    
+    final_df = pd.concat(dim_red_dict.values(), ignore_index=True)
+    
+    print('ALL done')
 
     return final_df
 
