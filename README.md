@@ -18,7 +18,7 @@ The Yemeni part of the corpus contains 92148 articles comprising 283983 distinct
 
 #### TFIDF and LDA 
 
-| TFIDF Vectorizer | |LDA Hyperparameters   |  |     
+| TFIDF Hyperparameters | Values |LDA Hyperparameters   | Values  |     
 | ------------- |--------------------| ----------------|-------|
 | max_df        | .95                | n_component     |6      |
 | min_df        | 2                  | max_iter        |5      |
