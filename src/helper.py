@@ -9,13 +9,17 @@ from gensim.test.utils import datapath
 from gensim import utils
 import gensim.models
 
+from plotly.subplots import make_subplots
+from plotly.offline import init_notebook_mode, iplot, plot
+import plotly.graph_objs as go
+
 from nltk import ngrams
 
 from sklearn.decomposition import IncrementalPCA    
 from sklearn.manifold import TSNE 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
-import src.stop_words
+#import src.stop_words
 
 #Cleaning function
 
