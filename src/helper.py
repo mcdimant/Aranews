@@ -216,7 +216,7 @@ def plot_n_closest(final_df, model_dict, word, n, year_a, year_b):
     fig.add_trace((trace_b), row=1, col=2)
 
     fig.update_layout(height=600, width=800, title_text="Word Embedding Comparison")
-    fig.show()
+    #fig.show()
 
     return fig.show() 
 
