@@ -15,6 +15,7 @@ from sklearn.decomposition import IncrementalPCA
 from sklearn.manifold import TSNE 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
+import src.stop_words
 
 #Cleaning function
 
@@ -65,8 +66,7 @@ def clean_text(text):
         
     text = text.strip()
 
-
-    return df
+    return text
 
 def prep_df_text(df):
     '''
@@ -113,7 +113,7 @@ def token_and_model(year_dict):
 
     model_dict = {}
 
-    for i, (df, model_name) in enumerate(zip(year_dict.items(), model_holder)):
+    for i, (df, model_name) in enumerate(zip(year_dict.items(), model_names)):
         sentences = [] 
         for line in df[1]['clean_text']:
             sentences.append(utils.simple_preprocess(line))
@@ -229,7 +229,7 @@ def lda_vectorizer(df, col, num_topics, num_features):
     tf_vectorizer = CountVectorizer(max_df=0.95,
                                     min_df=2,
                                     max_features=num_features,
-                                    stop_words='english')
+                                    stop_words=src.stop_words.ar_stop_words)
 
     tf = tf_vectorizer.fit_transform(docs)
     tf_feature_names = tf_vectorizer.get_feature_names() # theses are the words in our bag of words
@@ -243,13 +243,14 @@ def lda_vectorizer(df, col, num_topics, num_features):
                                     n_jobs=-1)
     lda.fit(tf)
 
-    #Add dataframe back to df showing how topic-y each document is for each of the 10 topics
+    #Add dataframe back to df showing how topic-y each document is for each of the n topics
 
-    #lda.transform(tf) is the matrix showing topicy-ness for each document and its 10 topics
+    #lda.transform(tf) is the matrix showing topicy-ness for each document and its n topics
     # convertiny lda array into dataframe for concatentation 
     lda_desc_df = pd.DataFrame(lda.transform(tf))
     df = pd.concat([df, lda_desc_df], axis=1)
     
     return df 
+
 
 print("helper functions loaded successfully!")
