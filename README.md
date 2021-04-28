@@ -51,6 +51,22 @@ The key to this analysis had two parts:
 2) Using T-SNE (t-Distributed Stochastic Neighbor Embedding) to reduce word vectorization to 2-dimensions for more intuitive plotting. 
 
 ## Visualization 
-Once the corpus of Yemeni articles was segmented by year, I could then write a function to compare the word embeddings for a specific word between two different inputted years. This task was functionized in the plot_n_closest function in the helper.py file. Effectively, this function is a tool enabling the user to compare the context of a given word in the same news outlet between two different times. For example, here is the output from the word مقاومه for years 2009 and 2014:
+Once the corpus of Yemeni articles was segmented by year, I could then write a function to compare the word embeddings for a specific word between two different inputted years. This task was functionized in the plot_n_closest function in the helper.py file. Effectively, this function is a tool enabling the user to compare the context of a given word in the same news outlet between two different times. For example, here is the output from the word مقاومه (resistance) for years 2009 and 2014:
 
 ![](images/muqawimah_2009_2014.png)
+
+## Interpretation
+Below is a translation of the top 10 words associated with مقاومه ("resistance") in 2009 and 2014:
+
+|2009 Words|Meaning|2014 Words|Meaning|
+|----------|-------|----------|-------|
+|  اسبعين  |  two weeks   |    اراض    | land      |
+|   التخلف |   retreat |  هجمات   |  attacks |    
+|   النيران|  flames  | اسرائيليه|       Israeli |
+|  والغاء   |  cancel    | اشعال    |   ignite    |
+|  التنافس  |  competition | مصادره   |  confiscation     |
+|    الحق   | law   | التعذيب  |  torture     |
+|   المسجد  | mosque     | عنصريه   | racism      |
+|   مفتوحه  | opening | اعتداءت  |  assaults     |
+|   فعاليه  | effectiveness | جرافات   |  bulldozers     |
+|  الفرصه   | opportunity | هدم      |   demolition    |
