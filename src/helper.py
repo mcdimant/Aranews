@@ -117,9 +117,9 @@ def token_and_model(year_dict):
         sentences = [] 
         for line in df[1]['clean_text']:
             sentences.append(utils.simple_preprocess(line))
-    model = gensim.models.Word2Vec(sentences)
+        model = gensim.models.Word2Vec(sentences)
 
-    model_dict[model_name] = model
+        model_dict[model_name] = model
 
     return model_dict
 
@@ -153,9 +153,9 @@ def reduce_dimensions(model_dict):
         y_vals = [v[1] for v in vectors]
         print('done assigning x_vals and y_vals')
 
-        final_df = pd.DataFrame({'year': y, 'x_vals':x_vals, 'y_vals':y_vals, 'labels':labels})
+    final_df = pd.DataFrame({'year': y, 'x_vals':x_vals, 'y_vals':y_vals, 'labels':labels})
         
-        print('done with dataframing!')
+    print('done with dataframing!')
 
     return final_df
 
