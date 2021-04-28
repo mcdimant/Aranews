@@ -218,7 +218,7 @@ def plot_n_closest(final_df, model_dict, word, n, year_a, year_b):
     fig.update_layout(height=600, width=800, 
     title_text=f"Word Embedding Comparison: {n} nearest neighbors for {word}, between {year_a} and {year_b}")
            
-
+    fig.write_image(f"images/{word}_{year_a}_{year_b}".png)
 
     return fig.show() 
 
