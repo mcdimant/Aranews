@@ -12,12 +12,12 @@ Analysis of word embedding in [corpus of Arabic news articles](https://abuelkhai
 ### Yemen News Data
 The Yemeni part of the corpus contains 92148 articles comprising 283983 distinct words from December 2009 to May 2014. All of the articles are from the [Saba News Agency](https://www.sabanew.net/), a state run media outlet. Abu el-Khair's methodology for choosing articles is unclear, so I performed a Latent Dirichlet Analysis (LDA) to discern topics within the Yemeni articles. After experimenting with various numbers of topics, I found that I could identify 6 more-or-less distinct topics within the Yemeni part of the corpus:
 
-* Histogram of Yemeni News Article Length
+Histogram of Yemeni News Article Length
 
 ![](images/histogram.png)
 
 
-#### TFIDF and LDA 
+#### TFIDF and LDA - Model Hyperparameters
 
 | TFIDF Hyperparameters |Values      |LDA Hyperparameters  |Values  |     
 | ------------- |--------------------| ----------------|-------|
@@ -26,6 +26,8 @@ The Yemeni part of the corpus contains 92148 articles comprising 283983 distinct
 | max_features  | 1000               | learning_method |online |
 | stop_words    | (Arabic stop words)| random_state    |0      |
 
+
+#### LDA Topic Breakdown
 
 | Topic      | Top 20 Words |
 |-----------------|--------------|
@@ -36,9 +38,19 @@ The Yemeni part of the corpus contains 92148 articles comprising 283983 distinct
 |Regional Arab Politcs (+sports?)*|   نقطه الاحتلال المركز فريق الفلسطينيه الاسرائيلي سوريا القدم القاهره لكره الاولي الاتحاد البطوله المصريه فيما المصري الفلسطيني مصر القدس الدور           | 
 |International Politics|      المتحده العام الحكومه المائه الخارجيه الامريكيه الاوروبي الامم الامريكي الدولي الدوليه الاتحاد الانسان الولايات الصين الدول بنسبه بشان بيان مستوي        | 
 
-*(Even when I added additional topics, the LDA appeared to conflate terms associaed with sports and regional Arab news)
-
+*(Even when I added additional topics, the LDA appeared to conflate terms associated with sports and regional Arab news, probably because the names of Arab nations are often part of covered soccer/football teams)
 
 ## The pipeline
+A high level view of the pipeline for this project is as follow:
 
-## 
+
+
+## WordEmbedding Analysis
+The key to this analysis had two parts: 
+1) WordEmbedding of texts segmented by year using gensim (an NLP library for python)
+2) Using T-SNE (t-Distributed Stochastic Neighbor Embedding) to reduce word vectorization to 2-dimensions for more intuitive plotting. 
+
+## Visualization 
+Once the corpus of Yemeni articles was segmented by year, I could then write a function to compare the word embeddings for a specific word between two different inputted years. This task was functionized in the plot_n_closest function in the helper.py file. Effectively, this function is a tool enabling the user to compare the context of a given word in the same news outlet between two different times. For example, here is the output from the word مقاومه for years 2009 and 2014:
+
+![](images/muqawimah_2009_2014.png)
