@@ -13,12 +13,13 @@ Analysis of word embedding in [corpus of Arabic news articles](https://abuelkhai
 The Yemeni part of the corpus contains 92148 articles comprising 283983 distinct words from December 2009 to May 2014. All of the articles are from the [Saba News Agency](https://www.sabanew.net/), a state run media outlet. Abu el-Khair's methodology for choosing articles is unclear, so I performed a Latent Dirichlet Analysis (LDA) to discern topics within the Yemeni articles. After experimenting with various numbers of topics, I found that I could identify 6 more-or-less distinct topics within the Yemeni part of the corpus:
 
 * Histogram of Yemeni News Article Length
+
 ![](images/histogram.png)
 
 
 #### TFIDF and LDA 
 
-| TFIDF Hyperparameters | Values |LDA Hyperparameters   | Values  |     
+| TFIDF Hyperparameters |Values      |LDA Hyperparameters  |Values  |     
 | ------------- |--------------------| ----------------|-------|
 | max_df        | .95                | n_component     |6      |
 | min_df        | 2                  | max_iter        |5      |
@@ -26,25 +27,16 @@ The Yemeni part of the corpus contains 92148 articles comprising 283983 distinct
 | stop_words    | (Arabic stop words)| random_state    |0      |
 
 
-* Topic 0: Security / Defense Affairs
-الامن الامنيه قوات المسلحه القوات العسكريه اللواء الشرطه الدفاع مدينه منطقه الجيش الداخليه جنوب المنطقه المواطنين وزاره الركن محافظه الانباء
+| Topic      | Top 20 Words |
+|-----------------|--------------|
+|Security/Defense |  الامن الامنيه قوات المسلحه القوات العسكريه اللواء الشرطه الدفاع مدينه منطقه الجيش الداخليه جنوب المنطقه المواطنين وزاره الركن محافظه الانباء            |
+|Economy/Development|     عدن اليمنيه الدوره الصحه مجال الانباء المجتمع لوكاله مدير صنعاء اليمن العامه الاطفال العام للتنميه العمل مشروع الصحيه الورشه بعدن         | 
+|Local politics|     المحافظه بالمحافظه العامه الاجتماع محمد اهميه وكيل المحليه اللجنه مدير مكتب المجلس العام محافظه صنعاء احمد عبد العمل المحلي الدكتور         | 
+|National Politics                 |   اليمن رئيس الوطني الحوار وزير العربيه الرئيس صنعاء مجلس التعاون الاخ مؤتمر اليمنيه الجمهوريه السياسيه اللقاء الدكتور محمد عبد اليمني           | 
+|Regional Arab Politcs (+sports?)*|   نقطه الاحتلال المركز فريق الفلسطينيه الاسرائيلي سوريا القدم القاهره لكره الاولي الاتحاد البطوله المصريه فيما المصري الفلسطيني مصر القدس الدور           | 
+|International Politics|      المتحده العام الحكومه المائه الخارجيه الامريكيه الاوروبي الامم الامريكي الدولي الدوليه الاتحاد الانسان الولايات الصين الدول بنسبه بشان بيان مستوي        | 
 
-* Topic 1: Economy / development
-عدن اليمنيه الدوره الصحه مجال الانباء المجتمع لوكاله مدير صنعاء اليمن العامه الاطفال العام للتنميه العمل مشروع الصحيه الورشه بعدن
-
-* Topic 2: Local politics
-المحافظه بالمحافظه العامه الاجتماع محمد اهميه وكيل المحليه اللجنه مدير مكتب المجلس العام محافظه صنعاء احمد عبد العمل المحلي الدكتور
-
-* Topic 3: National politics
-اليمن رئيس الوطني الحوار وزير العربيه الرئيس صنعاء مجلس التعاون الاخ مؤتمر اليمنيه الجمهوريه السياسيه اللقاء الدكتور محمد عبد اليمني
-
-* Topic 4: Regional Arab politics / sports
-نقطه الاحتلال المركز فريق الفلسطينيه الاسرائيلي سوريا القدم القاهره لكره الاولي الاتحاد البطوله المصريه فيما المصري الفلسطيني مصر القدس الدور
-
-* Topic 5: International politics
-المتحده العام الحكومه المائه الخارجيه الامريكيه الاوروبي الامم الامريكي الدولي الدوليه الاتحاد الانسان الولايات الصين الدول بنسبه بشان بيان مستوي
-
-(Even when I added additional topics, the LDA appeared to conflate terms associaed with sports and regional Arab news)
+*(Even when I added additional topics, the LDA appeared to conflate terms associaed with sports and regional Arab news)
 
 
 ## The pipeline
