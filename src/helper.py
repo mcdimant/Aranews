@@ -209,14 +209,16 @@ def plot_n_closest(final_df, model_dict, word, n, year_a, year_b):
     
     fig = make_subplots(rows=1, cols=2)
     
-    trace_a = go.Scatter(x=x_list_a, y=y_list_a, mode='text', text=label_list_a)
-    trace_b = go.Scatter(x=x_list_b, y=y_list_b, mode='text', text=label_list_b)
+    trace_a = go.Scatter(x=x_list_a, y=y_list_a, mode='text', text=label_list_a, name=f"{word}, {year_a}")
+    trace_b = go.Scatter(x=x_list_b, y=y_list_b, mode='text', text=label_list_b, name=f"{word}, {year_b}")
  
     fig.add_trace((trace_a), row=1, col=1)
     fig.add_trace((trace_b), row=1, col=2)
 
-    fig.update_layout(height=600, width=800, title_text="Word Embedding Comparison")
-    #fig.show()
+    fig.update_layout(height=600, width=800, 
+    title_text=f"Word Embedding Comparison: {n} nearest neighbors for {word}, between {year_a} and {year_b}")
+           
+
 
     return fig.show() 
 
