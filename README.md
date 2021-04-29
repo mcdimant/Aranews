@@ -38,7 +38,7 @@ Histogram of Yemeni News Article Length
 |Regional Arab Politcs (+sports?)*|   نقطه الاحتلال المركز فريق الفلسطينيه الاسرائيلي سوريا القدم القاهره لكره الاولي الاتحاد البطوله المصريه فيما المصري الفلسطيني مصر القدس الدور           | 
 |International Politics|      المتحده العام الحكومه المائه الخارجيه الامريكيه الاوروبي الامم الامريكي الدولي الدوليه الاتحاد الانسان الولايات الصين الدول بنسبه بشان بيان مستوي        | 
 
-*(Even when I added additional topics, the LDA appeared to conflate terms associated with sports and regional Arab news, probably because the names of Arab nations are often part of covered soccer/football teams)
+*Even when I added additional topics, the LDA appeared to conflate terms associated with sports and regional Arab news, probably because the names of Arab nations are often part of soccer/football teams covered in the news.
 
 ## The pipeline
 A high level view of the pipeline for this project is as follow:
@@ -60,7 +60,7 @@ Below is a translation of the top 10 words associated with مقاومه ("resist
 
 |2009 Words|Meaning|2014 Words|Meaning|
 |----------|-------|----------|-------|
-|  اسبعين  |  two weeks   |    اراض    | land      |
+|  اسبعين  |  seventy (?)   |    اراض    | land      |
 |   التخلف |   retreat |  هجمات   |  attacks |    
 |   النيران|  flames  | اسرائيليه|       Israeli |
 |  والغاء   |  cancel    | اشعال    |   ignite    |
@@ -70,3 +70,5 @@ Below is a translation of the top 10 words associated with مقاومه ("resist
 |   مفتوحه  | opening | اعتداءت  |  assaults     |
 |   فعاليه  | effectiveness | جرافات   |  bulldozers     |
 |  الفرصه   | opportunity | هدم      |   demolition    |
+
+The word مقاومه ("resistance") sometimes thas positive connations in modern Arab discourse, especially in the context of national resistance against foreign or unjust forces. We can see that in 2009, the words associated with "resistance" are generally more neutral, with the exception of "flames". However by 2014, the word took on more violent and stronger associations. The mere fact of a seeming change in the word-assocations for one word over time doesn't mean that society or the media significantly changed its discourse, it's possible that there were more articles that covered "resistance" in its more violent dimensions. While there is some gray area of interpretation, the tool is effective in illustrating differences in word assocaitions over time, which can point analysts towards questions that can further illuminate societal trends, media coverage, or political events. 
