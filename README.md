@@ -42,7 +42,7 @@ Histogram of Yemeni News Article Length
 
 ## The pipeline
 A high level view of the pipeline for this project is as follow:
-![](images/pipeline.png)
+![](images/pipeline.PNG)
 
 
 ## WordEmbedding Analysis
